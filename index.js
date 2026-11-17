@@ -3,18 +3,19 @@
 const express = require('express');
 const app = express();
 
-// Com4_1.1 — pole i obwód koła
-app.get('/math/circle/:r', (req, res) => {
-  const r = Number(req.params.r);
+// Com4_1.2 — pole i obwód prostokąta
+app.get('/math/rectangle/:width/:height', (req, res) => {
+  const width = Number(req.params.width);
+  const height = Number(req.params.height);
 
-  if (!Number.isFinite(r) || r <= 0) {
-    return res.status(400).json({ error: 'Invalid input' });
+  if( !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0){
+    return res.status(400).json({error: "invalid input"});
   }
 
-  const area = (Math.PI * r * r).toFixed(2);
-  const circumference = (2 * Math.PI * r).toFixed(2);
 
-  res.json({ area, circumference });
+  const area = width*height;
+  const perimeter = 2*(width+height);
+  res.json({area, perimeter});
 });
 
 const PORT = process.env.PORT || 3000;
