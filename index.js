@@ -3,19 +3,23 @@
 const express = require('express');
 const app = express();
 
-// Com4_1.2 — pole i obwód prostokąta
-app.get('/math/rectangle/:width/:height', (req, res) => {
-  const width = Number(req.params.width);
-  const height = Number(req.params.height);
+// Com4_1.3 — potęga + opcjonalny pierwiastek (?root=true)
+app.get('/math/power/:base/:exponent', (req, res) => {
+  const base = Number(req.params.base);
+  const exponent = Number(req.params.exponent);
 
-  if( !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0){
-    return res.status(400).json({error: "invalid input"});
+  if (!Number.isFinite(base) || !Number.isFinite(exponent)) {
+    return res.status(400).json({ error: 'Invalid input' });
   }
 
+  const result = Math.pow(base, exponent);
+  const response = { result };
 
-  const area = width*height;
-  const perimeter = 2*(width+height);
-  res.json({area, perimeter});
+  if (req.query.root === 'true') {
+    response.root = Math.sqrt(base);
+  }
+
+  res.json(response);
 });
 
 const PORT = process.env.PORT || 3000;
