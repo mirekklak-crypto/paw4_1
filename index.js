@@ -3,17 +3,19 @@
 const express = require('express');
 const app = express();
 
-// define endpoint for exercise 1 here
+// Com4_1.1 — pole i obwód koła
 app.get('/math/circle/:r', (req, res) => {
-//TODO1  
-  res.json(result);
+  const r = Number(req.params.r);
+
+  if (!Number.isFinite(r) || r <= 0) {
+    return res.status(400).json({ error: 'Invalid input' });
+  }
+
+  const area = (Math.PI * r * r).toFixed(2);
+  const circumference = (2 * Math.PI * r).toFixed(2);
+
+  res.json({ area, circumference });
 });
-
-//TODO2
-
-
-//TODO3
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
